@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Bay Code</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .signup-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 2rem;
+        }
+
+        .signup-card {
+            background: white;
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .signup-header {
+            margin-bottom: 2rem;
+        }
+
+        .signup-header h1 {
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .signup-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .radio-option input[type="radio"] {
+            width: auto;
+            margin: 0;
+        }
+
+        .submit-btn {
+            background: #2563eb;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #1d4ed8;
+        }
+
+        .guild-assignment {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            display: none;
+        }
+
+        .guild-assignment.show {
+            display: block;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .guild-assignment h3 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .guild-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .guild-description {
+            color: #64748b;
+            margin-bottom: 1rem;
+        }
+
+        .guild-features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .guild-features li {
+            padding: 0.25rem 0;
+            color: #64748b;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .guild-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #16a34a;
+            font-weight: bold;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .signup-card {
+                padding: 2rem;
+            }
+
+            .signup-header h1 {
+                font-size: 1.5rem;
+            }
+
+            .radio-group {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <div class="signup-card">
+            <div class="signup-header">
+                <h1>Join Bay Code</h1>
+                <p>Become part of our coding community and get assigned to a guild!</p>
+            </div>
+
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="school">School *</label>
+                    <input type="text" id="school" name="school" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Do you reside in the Bay Area? *</label>
+                    <div class="radio-group">
+                        <div class="radio-option">
+                            <input type="radio" id="bayAreaYes" name="bayArea" value="yes" required>
+                            <label for="bayAreaYes">Yes</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="bayAreaNo" name="bayArea" value="no" required>
+                            <label for="bayAreaNo">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">Join Bay Code</button>
+            </form>
+
+            <div class="guild-assignment" id="guildAssignment">
+                <h3>🎉 Welcome to Bay Code!</h3>
+                <div class="guild-name" id="assignedGuild"></div>
+                <div class="guild-description" id="guildDescription"></div>
+                <ul class="guild-features" id="guildFeatures"></ul>
+                <a href="https://google.com" class="btn btn-primary" style="margin-top: 1rem; display: inline-block;">Continue to Dashboard</a>
+            </div>
+
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+        </div>
+    </div>
+
+    <script>
+        const guilds = [
+            {
+                name: "Blue Guild",
+                description: "The prestigious Blue Guild welcomes you! Known for strategic thinking and collaborative problem-solving.",
+                features: [
+                    "Access to exclusive coding challenges",
+                    "Mentorship from experienced members",
+                    "Priority access to workshops",
+                    "Special recognition in competitions"
+                ],
+                color: "#3b82f6"
+            },
+            {
+                name: "Red Guild",
+                description: "Welcome to the Red Guild! We're known for our passion, determination, and competitive spirit.",
+                features: [
+                    "Intensive problem-solving sessions",
+                    "Competition preparation resources",
+                    "Team building activities",
+                    "Performance analytics tracking"
+                ],
+                color: "#ef4444"
+            },
+            {
+                name: "Green Guild",
+                description: "You've been assigned to the Green Guild! We focus on growth, learning, and sustainable development.",
+                features: [
+                    "Structured learning paths",
+                    "Peer study groups",
+                    "Progress tracking tools",
+                    "Innovation workshops"
+                ],
+                color: "#10b981"
+            },
+            {
+                name: "Yellow Guild",
+                description: "Welcome to the Yellow Guild! We bring energy, creativity, and optimism to every challenge.",
+                features: [
+                    "Creative problem-solving workshops",
+                    "Innovation labs",
+                    "Cross-disciplinary projects",
+                    "Leadership development"
+                ],
+                color: "#f59e0b"
+            },
+            {
+                name: "Pink Guild",
+                description: "You're now part of the Pink Guild! We emphasize collaboration, support, and inclusive growth.",
+                features: [
+                    "Community building events",
+                    "Supportive learning environment",
+                    "Diversity initiatives",
+                    "Mentorship programs"
+                ],
+                color: "#ec4899"
+            },
+            {
+                name: "Magenta Guild",
+                description: "Welcome to the Magenta Guild! We combine creativity with technical excellence.",
+                features: [
+                    "Artistic coding projects",
+                    "Design thinking workshops",
+                    "Creative technology labs",
+                    "Multimedia development"
+                ],
+                color: "#be185d"
+            }
+        ];
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const userData = {
+                fullName: formData.get('fullName'),
+                email: formData.get('email'),
+                school: formData.get('school'),
+                bayArea: formData.get('bayArea')
+            };
+
+            // Randomly assign to a guild
+            const randomGuild = guilds[Math.floor(Math.random() * guilds.length)];
+            
+            // Display guild assignment
+            document.getElementById('assignedGuild').textContent = randomGuild.name;
+            document.getElementById('guildDescription').textContent = randomGuild.description;
+            
+            const featuresList = document.getElementById('guildFeatures');
+            featuresList.innerHTML = randomGuild.features.map(feature => `<li>${feature}</li>`).join('');
+            
+            // Show guild assignment
+            document.getElementById('guildAssignment').classList.add('show');
+            
+            // Hide the form
+            this.style.display = 'none';
+            
+            // Store user data in localStorage (for demo purposes)
+            localStorage.setItem('bayCodeUser', JSON.stringify({
+                ...userData,
+                guild: randomGuild.name,
+                joinDate: new Date().toISOString()
+            }));
+        });
+    </script>
+</body>
+</html> 

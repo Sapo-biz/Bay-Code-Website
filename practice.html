@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Practice Problems - Bay Code</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .practice-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .practice-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .practice-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .practice-container {
+            padding: 3rem 0;
+        }
+
+        .problem-search {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        .problem-stats {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #64748b;
+        }
+
+        .problem-stats span {
+            margin: 0 1rem;
+            font-weight: 500;
+        }
+
+        .problem-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .problem-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            cursor: pointer;
+        }
+
+        .problem-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .problem-card.easy {
+            border-left-color: #16a34a;
+        }
+
+        .problem-card.medium {
+            border-left-color: #d97706;
+        }
+
+        .problem-card.hard {
+            border-left-color: #dc2626;
+        }
+
+        .problem-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .problem-title {
+            color: #1e293b;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .problem-difficulty {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .problem-card.easy .problem-difficulty {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .problem-card.medium .problem-difficulty {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .problem-card.hard .problem-difficulty {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .problem-description {
+            color: #64748b;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .problem-stats-row {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+
+        .problem-stats-row span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .solve-btn {
+            background: #2563eb;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .solve-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #1d4ed8;
+        }
+
+        @media (max-width: 768px) {
+            .practice-header h1 {
+                font-size: 2rem;
+            }
+
+            .problem-grid {
+                grid-template-columns: 1fr;
+                padding: 0 1rem;
+            }
+
+            .problem-stats span {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="practice-header">
+        <div class="container">
+            <h1>Practice Logic Problems</h1>
+            <p>Sharpen your coding skills with curated problems from LeetCode. Filter by difficulty and track your progress!</p>
+        </div>
+    </div>
+
+    <div class="practice-container">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+
+            <div class="problem-search">
+                <input type="text" class="search-input" placeholder="Search problems..." id="searchInput">
+                <i class="fas fa-search search-icon"></i>
+            </div>
+
+            <div class="problem-stats">
+                <span><i class="fas fa-code"></i> <span id="totalProblems">12</span> Problems</span>
+                <span><i class="fas fa-check-circle"></i> <span id="solvedProblems">0</span> Solved</span>
+                <span><i class="fas fa-trophy"></i> <span id="completionRate">0%</span> Completion</span>
+            </div>
+
+            <div class="practice-filters">
+                <button class="filter-btn active" data-difficulty="all">All</button>
+                <button class="filter-btn" data-difficulty="easy">Easy</button>
+                <button class="filter-btn" data-difficulty="medium">Medium</button>
+                <button class="filter-btn" data-difficulty="hard">Hard</button>
+            </div>
+
+            <div class="problem-grid" id="problemGrid">
+                <!-- Problems will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const practiceProblems = [
+            {
+                id: 1,
+                title: "Two Sum",
+                difficulty: "easy",
+                description: "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+                acceptance: "48.2%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/two-sum/"
+            },
+            {
+                id: 2,
+                title: "Add Two Numbers",
+                difficulty: "medium",
+                description: "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order.",
+                acceptance: "35.8%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/add-two-numbers/"
+            },
+            {
+                id: 3,
+                title: "Longest Substring Without Repeating Characters",
+                difficulty: "medium",
+                description: "Given a string s, find the length of the longest substring without repeating characters.",
+                acceptance: "33.1%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+            },
+            {
+                id: 4,
+                title: "Median of Two Sorted Arrays",
+                difficulty: "hard",
+                description: "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.",
+                acceptance: "32.4%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/median-of-two-sorted-arrays/"
+            },
+            {
+                id: 5,
+                title: "Valid Parentheses",
+                difficulty: "easy",
+                description: "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
+                acceptance: "40.2%",
+                solved: false,
+                category: "Stack",
+                leetcodeUrl: "https://leetcode.com/problems/valid-parentheses/"
+            },
+            {
+                id: 6,
+                title: "Merge Two Sorted Lists",
+                difficulty: "easy",
+                description: "Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.",
+                acceptance: "54.7%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/merge-two-sorted-lists/"
+            },
+            {
+                id: 7,
+                title: "Container With Most Water",
+                difficulty: "medium",
+                description: "Given n non-negative integers height where each represents a point at coordinate (i, height[i]), find two lines that together with the x-axis form a container.",
+                acceptance: "52.3%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/container-with-most-water/"
+            },
+            {
+                id: 8,
+                title: "3Sum",
+                difficulty: "medium",
+                description: "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.",
+                acceptance: "28.9%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/3sum/"
+            },
+            {
+                id: 9,
+                title: "Regular Expression Matching",
+                difficulty: "hard",
+                description: "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*'.",
+                acceptance: "27.1%",
+                solved: false,
+                category: "Dynamic Programming",
+                leetcodeUrl: "https://leetcode.com/problems/regular-expression-matching/"
+            },
+            {
+                id: 10,
+                title: "Palindrome Number",
+                difficulty: "easy",
+                description: "Given an integer x, return true if x is a palindrome, and false otherwise.",
+                acceptance: "51.2%",
+                solved: false,
+                category: "Math",
+                leetcodeUrl: "https://leetcode.com/problems/palindrome-number/"
+            },
+            {
+                id: 11,
+                title: "Integer to Roman",
+                difficulty: "medium",
+                description: "Given an integer, convert it to a roman numeral.",
+                acceptance: "58.4%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/integer-to-roman/"
+            },
+            {
+                id: 12,
+                title: "Longest Common Prefix",
+                difficulty: "easy",
+                description: "Write a function to find the longest common prefix string amongst an array of strings.",
+                acceptance: "39.8%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/longest-common-prefix/"
+            }
+        ];
+
+        let currentProblems = [...practiceProblems];
+
+        function loadProblems(difficulty = 'all') {
+            const problemGrid = document.getElementById('problemGrid');
+            
+            const filteredProblems = difficulty === 'all' 
+                ? currentProblems 
+                : currentProblems.filter(problem => problem.difficulty === difficulty);
+
+            problemGrid.innerHTML = filteredProblems.map(problem => `
+                <div class="problem-card ${problem.difficulty}" onclick="openProblem('${problem.leetcodeUrl}')">
+                    <div class="problem-header">
+                        <h3 class="problem-title">${problem.title}</h3>
+                        <span class="problem-difficulty">${problem.difficulty}</span>
+                    </div>
+                    <p class="problem-description">${problem.description}</p>
+                    <div class="problem-stats-row">
+                        <span><i class="fas fa-chart-line"></i> ${problem.acceptance} acceptance</span>
+                        <span><i class="fas fa-tag"></i> ${problem.category}</span>
+                        <span><i class="fas fa-check-circle"></i> ${problem.solved ? 'Solved' : 'Not solved'}</span>
+                    </div>
+                    <a href="${problem.leetcodeUrl}" class="solve-btn" onclick="event.stopPropagation(); solveProblem(${problem.id})">
+                        ${problem.solved ? 'View Solution' : 'Solve on LeetCode'}
+                    </a>
+                </div>
+            `).join('');
+
+            updateStats();
+        }
+
+        function filterProblems(difficulty) {
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Load filtered problems
+            loadProblems(difficulty);
+        }
+
+        function solveProblem(problemId) {
+            const problem = practiceProblems.find(p => p.id === problemId);
+            if (problem) {
+                problem.solved = true;
+                // Save to localStorage
+                const progress = JSON.parse(localStorage.getItem('bayCodeProgress') || '{}');
+                progress[problemId] = true;
+                localStorage.setItem('bayCodeProgress', JSON.stringify(progress));
+                
+                // Update display
+                loadProblems();
+            }
+        }
+
+        function openProblem(url) {
+            window.open(url, '_blank');
+        }
+
+        function updateStats() {
+            const totalProblems = practiceProblems.length;
+            const solvedProblems = practiceProblems.filter(p => p.solved).length;
+            const completionRate = Math.round((solvedProblems / totalProblems) * 100);
+
+            document.getElementById('totalProblems').textContent = totalProblems;
+            document.getElementById('solvedProblems').textContent = solvedProblems;
+            document.getElementById('completionRate').textContent = completionRate + '%';
+        }
+
+        function searchProblems(query) {
+            const filteredProblems = practiceProblems.filter(problem => 
+                problem.title.toLowerCase().includes(query.toLowerCase()) ||
+                problem.description.toLowerCase().includes(query.toLowerCase()) ||
+                problem.category.toLowerCase().includes(query.toLowerCase())
+            );
+            
+            currentProblems = filteredProblems;
+            loadProblems();
+        }
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const progress = JSON.parse(localStorage.getItem('bayCodeProgress') || '{}');
+            practiceProblems.forEach(problem => {
+                if (progress[problem.id]) {
+                    problem.solved = progress[problem.id];
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadProgress();
+            loadProblems();
+            
+            // Add event listeners to filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterProblems(e.target.dataset.difficulty);
+                });
+            });
+
+            // Add search functionality
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', (e) => {
+                searchProblems(e.target.value);
+            });
+        });
+    </script>
+</body>
+</html> 
