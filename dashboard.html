@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guild Dashboard - Bay Code</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .dashboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2rem 0;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .user-details {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .user-text h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .user-text p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .dashboard-content {
+            padding: 3rem 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #2563eb;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+
+        .guild-comparison {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .guild-comparison h2 {
+            color: #1e293b;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 0 auto;
+            max-width: 800px;
+        }
+
+        .guild-rankings {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .guild-rankings h2 {
+            color: #1e293b;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .rankings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .guild-card {
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .guild-card.current {
+            border-color: #2563eb;
+            background: #f8fafc;
+        }
+
+        .guild-card.first {
+            border-color: #fbbf24;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        }
+
+        .guild-card.second {
+            border-color: #9ca3af;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+        }
+
+        .guild-card.third {
+            border-color: #f87171;
+            background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+        }
+
+        .guild-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .guild-name {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .guild-rank {
+            background: #2563eb;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .guild-stats {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .action-btn {
+            background: #2563eb;
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .action-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .action-btn.secondary {
+            background: transparent;
+            color: #2563eb;
+            border: 2px solid #2563eb;
+        }
+
+        .action-btn.secondary:hover {
+            background: #2563eb;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .user-info {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .rankings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chart-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <div class="user-info">
+            <div class="user-details">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-text">
+                    <h2 id="userName">Loading...</h2>
+                    <p id="userGuild">Loading...</p>
+                </div>
+            </div>
+            <a href="#" onclick="logout()" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Your Points</h3>
+                    <div class="stat-value" id="userPoints">0</div>
+                    <div class="stat-label">Earned from solving problems</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Respect Rank</h3>
+                    <div class="stat-value" id="userRank">Respect I</div>
+                    <div class="stat-label">Your current rank</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Problems Solved</h3>
+                    <div class="stat-value" id="problemsSolved">0</div>
+                    <div class="stat-label">Total problems completed</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Guild Rank</h3>
+                    <div class="stat-value" id="guildRank">-</div>
+                    <div class="stat-label">Your guild's position</div>
+                </div>
+            </div>
+
+            <div class="guild-comparison">
+                <h2>Guild Comparison</h2>
+                <div class="chart-container">
+                    <canvas id="guildChart"></canvas>
+                </div>
+            </div>
+
+            <div class="guild-rankings">
+                <h2>Guild Rankings</h2>
+                <div class="rankings-grid" id="rankingsGrid">
+                    <!-- Rankings will be loaded here -->
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <a href="practice.html" class="action-btn">
+                    <i class="fas fa-code"></i> Practice Problems
+                </a>
+                <a href="events.html" class="action-btn secondary">
+                    <i class="fas fa-calendar"></i> View Events
+                </a>
+                <a href="events.html#chat" class="action-btn secondary">
+                    <i class="fas fa-users"></i> Guild Chat
+                </a>
+                <a href="events.html#leaderboard" class="action-btn secondary">
+                    <i class="fas fa-trophy"></i> Leaderboards
+                </a>
+                <a href="profile.html" class="action-btn secondary">
+                    <i class="fas fa-user"></i> Update Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="email-service.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!bayCodeAuth.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        const currentUser = bayCodeAuth.getCurrentUser();
+        const dashboardData = bayCodeAuth.getUserGuildDashboard();
+
+        // Update user info
+        document.getElementById('userName').textContent = currentUser.username;
+        document.getElementById('userGuild').textContent = currentUser.guild;
+        document.getElementById('userPoints').textContent = currentUser.points;
+        document.getElementById('userRank').textContent = currentUser.respectRank;
+        document.getElementById('problemsSolved').textContent = currentUser.solvedProblems.length;
+        document.getElementById('guildRank').textContent = `#${dashboardData.guildRank}`;
+
+        // Create guild comparison chart
+        const ctx = document.getElementById('guildChart').getContext('2d');
+        const guildStats = dashboardData.allGuilds;
+        
+        const chart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(guildStats),
+                datasets: [{
+                    label: 'Respect Points',
+                    data: Object.values(guildStats).map(g => g.respectPoints),
+                    backgroundColor: [
+                        '#3b82f6', '#ef4444', '#10b981', 
+                        '#f59e0b', '#ec4899', '#be185d'
+                    ],
+                    borderColor: [
+                        '#1d4ed8', '#dc2626', '#059669',
+                        '#d97706', '#db2777', '#9d174d'
+                    ],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    title: {
+                        display: true,
+                        text: 'Guild Respect Points',
+                        color: '#1e293b',
+                        font: {
+                            size: 16,
+                            weight: 'bold'
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 1
+                        }
+                    }
+                }
+            }
+        });
+
+        // Load guild rankings
+        function loadRankings() {
+            const rankingsGrid = document.getElementById('rankingsGrid');
+            const sortedGuilds = Object.entries(guildStats)
+                .sort(([,a], [,b]) => b.respectPoints - a.respectPoints);
+
+            rankingsGrid.innerHTML = sortedGuilds.map(([guildName, stats], index) => {
+                const isCurrent = guildName === currentUser.guild;
+                const rankClass = index === 0 ? 'first' : index === 1 ? 'second' : index === 2 ? 'third' : '';
+                const currentClass = isCurrent ? 'current' : '';
+                
+                return `
+                    <div class="guild-card ${rankClass} ${currentClass}">
+                        <div class="guild-header">
+                            <span class="guild-name">${guildName}</span>
+                            <span class="guild-rank">#${index + 1}</span>
+                        </div>
+                        <div class="guild-stats">
+                            <span><i class="fas fa-users"></i> ${stats.memberCount} members</span>
+                            <span><i class="fas fa-star"></i> ${stats.respectRank}</span>
+                            <span><i class="fas fa-trophy"></i> ${stats.respectPoints} respect points</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        loadRankings();
+
+        function logout() {
+            bayCodeAuth.logout();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html> 

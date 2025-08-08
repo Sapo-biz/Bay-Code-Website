@@ -106,6 +106,11 @@
             border-left-color: #dc2626;
         }
 
+        .problem-card.extreme {
+            border-left-color: #dc2626;
+            border-left-width: 6px;
+        }
+
         .problem-header {
             display: flex;
             justify-content: space-between;
@@ -140,6 +145,16 @@
         .problem-card.hard .problem-difficulty {
             background: #fee2e2;
             color: #dc2626;
+        }
+
+        .problem-card.extreme .problem-difficulty {
+            background: #dc2626;
+            color: white;
+            font-weight: 700;
+        }
+
+        .problem-card.extreme .problem-difficulty::before {
+            content: "🔥 ";
         }
 
         .problem-description {
@@ -248,8 +263,11 @@
         </div>
     </div>
 
+    <script src="email-service.js"></script>
+    <script src="auth.js"></script>
     <script>
         const practiceProblems = [
+            // Easy Problems (1-20)
             {
                 id: 1,
                 title: "Two Sum",
@@ -262,36 +280,6 @@
             },
             {
                 id: 2,
-                title: "Add Two Numbers",
-                difficulty: "medium",
-                description: "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order.",
-                acceptance: "35.8%",
-                solved: false,
-                category: "Linked List",
-                leetcodeUrl: "https://leetcode.com/problems/add-two-numbers/"
-            },
-            {
-                id: 3,
-                title: "Longest Substring Without Repeating Characters",
-                difficulty: "medium",
-                description: "Given a string s, find the length of the longest substring without repeating characters.",
-                acceptance: "33.1%",
-                solved: false,
-                category: "String",
-                leetcodeUrl: "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
-            },
-            {
-                id: 4,
-                title: "Median of Two Sorted Arrays",
-                difficulty: "hard",
-                description: "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.",
-                acceptance: "32.4%",
-                solved: false,
-                category: "Array",
-                leetcodeUrl: "https://leetcode.com/problems/median-of-two-sorted-arrays/"
-            },
-            {
-                id: 5,
                 title: "Valid Parentheses",
                 difficulty: "easy",
                 description: "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
@@ -301,7 +289,7 @@
                 leetcodeUrl: "https://leetcode.com/problems/valid-parentheses/"
             },
             {
-                id: 6,
+                id: 3,
                 title: "Merge Two Sorted Lists",
                 difficulty: "easy",
                 description: "Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.",
@@ -311,37 +299,7 @@
                 leetcodeUrl: "https://leetcode.com/problems/merge-two-sorted-lists/"
             },
             {
-                id: 7,
-                title: "Container With Most Water",
-                difficulty: "medium",
-                description: "Given n non-negative integers height where each represents a point at coordinate (i, height[i]), find two lines that together with the x-axis form a container.",
-                acceptance: "52.3%",
-                solved: false,
-                category: "Array",
-                leetcodeUrl: "https://leetcode.com/problems/container-with-most-water/"
-            },
-            {
-                id: 8,
-                title: "3Sum",
-                difficulty: "medium",
-                description: "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.",
-                acceptance: "28.9%",
-                solved: false,
-                category: "Array",
-                leetcodeUrl: "https://leetcode.com/problems/3sum/"
-            },
-            {
-                id: 9,
-                title: "Regular Expression Matching",
-                difficulty: "hard",
-                description: "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*'.",
-                acceptance: "27.1%",
-                solved: false,
-                category: "Dynamic Programming",
-                leetcodeUrl: "https://leetcode.com/problems/regular-expression-matching/"
-            },
-            {
-                id: 10,
+                id: 4,
                 title: "Palindrome Number",
                 difficulty: "easy",
                 description: "Given an integer x, return true if x is a palindrome, and false otherwise.",
@@ -351,7 +309,209 @@
                 leetcodeUrl: "https://leetcode.com/problems/palindrome-number/"
             },
             {
+                id: 5,
+                title: "Longest Common Prefix",
+                difficulty: "easy",
+                description: "Write a function to find the longest common prefix string amongst an array of strings.",
+                acceptance: "39.8%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/longest-common-prefix/"
+            },
+            {
+                id: 6,
+                title: "Remove Duplicates from Sorted Array",
+                difficulty: "easy",
+                description: "Given a sorted array nums, remove the duplicates in-place such that each element appears only once and returns the new length.",
+                acceptance: "45.3%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/remove-duplicates-from-sorted-array/"
+            },
+            {
+                id: 7,
+                title: "Climbing Stairs",
+                difficulty: "easy",
+                description: "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
+                acceptance: "49.1%",
+                solved: false,
+                category: "Dynamic Programming",
+                leetcodeUrl: "https://leetcode.com/problems/climbing-stairs/"
+            },
+            {
+                id: 8,
+                title: "Best Time to Buy and Sell Stock",
+                difficulty: "easy",
+                description: "You are given an array prices where prices[i] is the price of a given stock on the ith day. Find the maximum profit you can achieve.",
+                acceptance: "52.8%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"
+            },
+            {
+                id: 9,
+                title: "Maximum Subarray",
+                difficulty: "easy",
+                description: "Given an integer array nums, find the contiguous subarray with the largest sum, and return its sum.",
+                acceptance: "47.5%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/maximum-subarray/"
+            },
+            {
+                id: 10,
+                title: "Single Number",
+                difficulty: "easy",
+                description: "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.",
+                acceptance: "68.2%",
+                solved: false,
+                category: "Bit Manipulation",
+                leetcodeUrl: "https://leetcode.com/problems/single-number/"
+            },
+            {
                 id: 11,
+                title: "Linked List Cycle",
+                difficulty: "easy",
+                description: "Given head, the head of a linked list, determine if the linked list has a cycle in it.",
+                acceptance: "42.1%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/linked-list-cycle/"
+            },
+            {
+                id: 12,
+                title: "Reverse String",
+                difficulty: "easy",
+                description: "Write a function that reverses a string. The input string is given as an array of characters s.",
+                acceptance: "75.3%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/reverse-string/"
+            },
+            {
+                id: 13,
+                title: "Move Zeroes",
+                difficulty: "easy",
+                description: "Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.",
+                acceptance: "58.9%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/move-zeroes/"
+            },
+            {
+                id: 14,
+                title: "Symmetric Tree",
+                difficulty: "easy",
+                description: "Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).",
+                acceptance: "48.7%",
+                solved: false,
+                category: "Tree",
+                leetcodeUrl: "https://leetcode.com/problems/symmetric-tree/"
+            },
+            {
+                id: 15,
+                title: "Missing Number",
+                difficulty: "easy",
+                description: "Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array.",
+                acceptance: "55.4%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/missing-number/"
+            },
+            {
+                id: 16,
+                title: "First Bad Version",
+                difficulty: "easy",
+                description: "You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check.",
+                acceptance: "41.2%",
+                solved: false,
+                category: "Binary Search",
+                leetcodeUrl: "https://leetcode.com/problems/first-bad-version/"
+            },
+            {
+                id: 17,
+                title: "Valid Anagram",
+                difficulty: "easy",
+                description: "Given two strings s and t, return true if t is an anagram of s, and false otherwise.",
+                acceptance: "62.8%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/valid-anagram/"
+            },
+            {
+                id: 18,
+                title: "Power of Two",
+                difficulty: "easy",
+                description: "Given an integer n, return true if it is a power of two. Otherwise, return false.",
+                acceptance: "44.1%",
+                solved: false,
+                category: "Math",
+                leetcodeUrl: "https://leetcode.com/problems/power-of-two/"
+            },
+            {
+                id: 19,
+                title: "Count Primes",
+                difficulty: "easy",
+                description: "Count the number of prime numbers less than a non-negative number, n.",
+                acceptance: "32.8%",
+                solved: false,
+                category: "Math",
+                leetcodeUrl: "https://leetcode.com/problems/count-primes/"
+            },
+            {
+                id: 20,
+                title: "Happy Number",
+                difficulty: "easy",
+                description: "Write an algorithm to determine if a number n is happy.",
+                acceptance: "52.3%",
+                solved: false,
+                category: "Hash Table",
+                leetcodeUrl: "https://leetcode.com/problems/happy-number/"
+            },
+
+            // Medium Problems (21-40)
+            {
+                id: 21,
+                title: "Add Two Numbers",
+                difficulty: "medium",
+                description: "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order.",
+                acceptance: "35.8%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/add-two-numbers/"
+            },
+            {
+                id: 22,
+                title: "Longest Substring Without Repeating Characters",
+                difficulty: "medium",
+                description: "Given a string s, find the length of the longest substring without repeating characters.",
+                acceptance: "33.1%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
+            },
+            {
+                id: 23,
+                title: "Container With Most Water",
+                difficulty: "medium",
+                description: "Given n non-negative integers height where each represents a point at coordinate (i, height[i]), find two lines that together with the x-axis form a container.",
+                acceptance: "52.3%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/container-with-most-water/"
+            },
+            {
+                id: 24,
+                title: "3Sum",
+                difficulty: "medium",
+                description: "Given an integer array nums, return all the triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0.",
+                acceptance: "28.9%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/3sum/"
+            },
+            {
+                id: 25,
                 title: "Integer to Roman",
                 difficulty: "medium",
                 description: "Given an integer, convert it to a roman numeral.",
@@ -361,14 +521,308 @@
                 leetcodeUrl: "https://leetcode.com/problems/integer-to-roman/"
             },
             {
-                id: 12,
-                title: "Longest Common Prefix",
-                difficulty: "easy",
-                description: "Write a function to find the longest common prefix string amongst an array of strings.",
-                acceptance: "39.8%",
+                id: 26,
+                title: "Longest Palindromic Substring",
+                difficulty: "medium",
+                description: "Given a string s, return the longest palindromic substring in s.",
+                acceptance: "30.2%",
                 solved: false,
                 category: "String",
-                leetcodeUrl: "https://leetcode.com/problems/longest-common-prefix/"
+                leetcodeUrl: "https://leetcode.com/problems/longest-palindromic-substring/"
+            },
+            {
+                id: 27,
+                title: "Zigzag Conversion",
+                difficulty: "medium",
+                description: "The string \"PAYPALISHIRING\" is written in a zigzag pattern on a given number of rows like this: (you may want to display this pattern in a fixed font for better legibility)",
+                acceptance: "38.7%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/zigzag-conversion/"
+            },
+            {
+                id: 28,
+                title: "Reverse Integer",
+                difficulty: "medium",
+                description: "Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.",
+                acceptance: "26.8%",
+                solved: false,
+                category: "Math",
+                leetcodeUrl: "https://leetcode.com/problems/reverse-integer/"
+            },
+            {
+                id: 29,
+                title: "String to Integer (atoi)",
+                difficulty: "medium",
+                description: "Implement the myAtoi(string s) function, which converts a string to a 32-bit signed integer (similar to C/C++'s atoi function).",
+                acceptance: "16.5%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/string-to-integer-atoi/"
+            },
+            {
+                id: 30,
+                title: "Palindrome Number",
+                difficulty: "medium",
+                description: "Given an integer x, return true if x is a palindrome, and false otherwise.",
+                acceptance: "51.2%",
+                solved: false,
+                category: "Math",
+                leetcodeUrl: "https://leetcode.com/problems/palindrome-number/"
+            },
+            {
+                id: 31,
+                title: "Remove Nth Node From End of List",
+                difficulty: "medium",
+                description: "Given the head of a linked list, remove the nth node from the end of the list and return its head.",
+                acceptance: "37.8%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/remove-nth-node-from-end-of-list/"
+            },
+            {
+                id: 32,
+                title: "Swap Nodes in Pairs",
+                difficulty: "medium",
+                description: "Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes.",
+                acceptance: "55.2%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/swap-nodes-in-pairs/"
+            },
+            {
+                id: 33,
+                title: "Reverse Nodes in k-Group",
+                difficulty: "medium",
+                description: "Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.",
+                acceptance: "45.1%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/reverse-nodes-in-k-group/"
+            },
+            {
+                id: 34,
+                title: "Rotate Image",
+                difficulty: "medium",
+                description: "You are given an n x n 2D matrix representing an image, rotate the image by 90 degrees (clockwise).",
+                acceptance: "62.3%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/rotate-image/"
+            },
+            {
+                id: 35,
+                title: "Group Anagrams",
+                difficulty: "medium",
+                description: "Given an array of strings strs, group the anagrams together. You can return the answer in any order.",
+                acceptance: "58.7%",
+                solved: false,
+                category: "Hash Table",
+                leetcodeUrl: "https://leetcode.com/problems/group-anagrams/"
+            },
+            {
+                id: 36,
+                title: "Permutations",
+                difficulty: "medium",
+                description: "Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.",
+                acceptance: "68.9%",
+                solved: false,
+                category: "Backtracking",
+                leetcodeUrl: "https://leetcode.com/problems/permutations/"
+            },
+            {
+                id: 37,
+                title: "Jump Game",
+                difficulty: "medium",
+                description: "You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.",
+                acceptance: "37.2%",
+                solved: false,
+                category: "Greedy",
+                leetcodeUrl: "https://leetcode.com/problems/jump-game/"
+            },
+            {
+                id: 38,
+                title: "Merge Intervals",
+                difficulty: "medium",
+                description: "Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.",
+                acceptance: "42.8%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/merge-intervals/"
+            },
+            {
+                id: 39,
+                title: "Unique Paths",
+                difficulty: "medium",
+                description: "There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]).",
+                acceptance: "58.4%",
+                solved: false,
+                category: "Dynamic Programming",
+                leetcodeUrl: "https://leetcode.com/problems/unique-paths/"
+            },
+            {
+                id: 40,
+                title: "Minimum Path Sum",
+                difficulty: "medium",
+                description: "Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.",
+                acceptance: "55.7%",
+                solved: false,
+                category: "Dynamic Programming",
+                leetcodeUrl: "https://leetcode.com/problems/minimum-path-sum/"
+            },
+
+            // Hard Problems (41-50)
+            {
+                id: 41,
+                title: "Median of Two Sorted Arrays",
+                difficulty: "hard",
+                description: "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.",
+                acceptance: "32.4%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/median-of-two-sorted-arrays/"
+            },
+            {
+                id: 42,
+                title: "Regular Expression Matching",
+                difficulty: "hard",
+                description: "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*'.",
+                acceptance: "27.1%",
+                solved: false,
+                category: "Dynamic Programming",
+                leetcodeUrl: "https://leetcode.com/problems/regular-expression-matching/"
+            },
+            {
+                id: 43,
+                title: "Merge k Sorted Lists",
+                difficulty: "hard",
+                description: "You are given an array of k linked-lists lists, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return it.",
+                acceptance: "42.8%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/merge-k-sorted-lists/"
+            },
+            {
+                id: 44,
+                title: "Reverse Nodes in k-Group",
+                difficulty: "hard",
+                description: "Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.",
+                acceptance: "45.1%",
+                solved: false,
+                category: "Linked List",
+                leetcodeUrl: "https://leetcode.com/problems/reverse-nodes-in-k-group/"
+            },
+            {
+                id: 45,
+                title: "Substring with Concatenation of All Words",
+                difficulty: "hard",
+                description: "You are given a string s and an array of strings words. All the strings of words are of the same length.",
+                acceptance: "28.4%",
+                solved: false,
+                category: "String",
+                leetcodeUrl: "https://leetcode.com/problems/substring-with-concatenation-of-all-words/"
+            },
+            {
+                id: 46,
+                title: "Longest Valid Parentheses",
+                difficulty: "hard",
+                description: "Given a string containing just the characters '(' and ')', find the length of the longest valid (well-formed) parentheses substring.",
+                acceptance: "30.2%",
+                solved: false,
+                category: "Stack",
+                leetcodeUrl: "https://leetcode.com/problems/longest-valid-parentheses/"
+            },
+            {
+                id: 47,
+                title: "Sudoku Solver",
+                difficulty: "hard",
+                description: "Write a program to solve a Sudoku puzzle by filling the empty cells.",
+                acceptance: "45.8%",
+                solved: false,
+                category: "Backtracking",
+                leetcodeUrl: "https://leetcode.com/problems/sudoku-solver/"
+            },
+            {
+                id: 48,
+                title: "First Missing Positive",
+                difficulty: "hard",
+                description: "Given an unsorted integer array nums, return the smallest missing positive integer.",
+                acceptance: "35.7%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/first-missing-positive/"
+            },
+            {
+                id: 49,
+                title: "Trapping Rain Water",
+                difficulty: "hard",
+                description: "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.",
+                acceptance: "54.2%",
+                solved: false,
+                category: "Array",
+                leetcodeUrl: "https://leetcode.com/problems/trapping-rain-water/"
+            },
+            {
+                id: 50,
+                title: "Wildcard Matching",
+                difficulty: "hard",
+                description: "Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*'.",
+                acceptance: "25.8%",
+                solved: false,
+                category: "Dynamic Programming",
+                leetcodeUrl: "https://leetcode.com/problems/wildcard-matching/"
+            },
+
+            // Extreme Problems (51-55)
+            {
+                id: 51,
+                title: "Sliding Window Maximum",
+                difficulty: "extreme",
+                description: "You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right.",
+                acceptance: "45.3%",
+                solved: false,
+                category: "Heap",
+                leetcodeUrl: "https://leetcode.com/problems/sliding-window-maximum/"
+            },
+            {
+                id: 52,
+                title: "Minimum Window Substring",
+                difficulty: "extreme",
+                description: "Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window.",
+                acceptance: "38.7%",
+                solved: false,
+                category: "Hash Table",
+                leetcodeUrl: "https://leetcode.com/problems/minimum-window-substring/"
+            },
+            {
+                id: 53,
+                title: "Serialize and Deserialize Binary Tree",
+                difficulty: "extreme",
+                description: "Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work.",
+                acceptance: "52.4%",
+                solved: false,
+                category: "Tree",
+                leetcodeUrl: "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/"
+            },
+            {
+                id: 54,
+                title: "Word Search II",
+                difficulty: "extreme",
+                description: "Given an m x n board of characters and a list of strings words, return all words on the board.",
+                acceptance: "35.8%",
+                solved: false,
+                category: "Trie",
+                leetcodeUrl: "https://leetcode.com/problems/word-search-ii/"
+            },
+            {
+                id: 55,
+                title: "Alien Dictionary",
+                difficulty: "extreme",
+                description: "There is a new alien language that uses the English alphabet. However, the order among letters are unknown to you.",
+                acceptance: "33.2%",
+                solved: false,
+                category: "Graph",
+                leetcodeUrl: "https://leetcode.com/problems/alien-dictionary/"
             }
         ];
 
@@ -417,10 +871,26 @@
             const problem = practiceProblems.find(p => p.id === problemId);
             if (problem) {
                 problem.solved = true;
-                // Save to localStorage
-                const progress = JSON.parse(localStorage.getItem('bayCodeProgress') || '{}');
-                progress[problemId] = true;
-                localStorage.setItem('bayCodeProgress', JSON.stringify(progress));
+                
+                // Update auth system if user is logged in
+                if (typeof bayCodeAuth !== 'undefined' && bayCodeAuth.isLoggedIn()) {
+                    // Award respect points based on difficulty
+                    let respectPoints = 1; // Default for easy
+                    if (problem.difficulty === 'medium') {
+                        respectPoints = 2;
+                    } else if (problem.difficulty === 'hard') {
+                        respectPoints = 3;
+                    } else if (problem.difficulty === 'extreme') {
+                        respectPoints = 5;
+                    }
+                    
+                    bayCodeAuth.updateSolvedProblems(problemId, respectPoints);
+                } else {
+                    // Fallback to localStorage for non-logged in users
+                    const progress = JSON.parse(localStorage.getItem('bayCodeProgress') || '{}');
+                    progress[problemId] = true;
+                    localStorage.setItem('bayCodeProgress', JSON.stringify(progress));
+                }
                 
                 // Update display
                 loadProblems();
@@ -454,12 +924,21 @@
 
         // Load progress from localStorage
         function loadProgress() {
-            const progress = JSON.parse(localStorage.getItem('bayCodeProgress') || '{}');
-            practiceProblems.forEach(problem => {
-                if (progress[problem.id]) {
-                    problem.solved = progress[problem.id];
-                }
-            });
+            // Check if user is logged in and use auth system
+            if (typeof bayCodeAuth !== 'undefined' && bayCodeAuth.isLoggedIn()) {
+                const currentUser = bayCodeAuth.getCurrentUser();
+                practiceProblems.forEach(problem => {
+                    problem.solved = currentUser.solvedProblems.includes(problem.id);
+                });
+            } else {
+                // Fallback to localStorage for non-logged in users
+                const progress = JSON.parse(localStorage.getItem('bayCodeProgress') || '{}');
+                practiceProblems.forEach(problem => {
+                    if (progress[problem.id]) {
+                        problem.solved = progress[problem.id];
+                    }
+                });
+            }
         }
 
         // Initialize

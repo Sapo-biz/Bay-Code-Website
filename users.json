@@ -1,0 +1,35 @@
+{
+  "users": [],
+  "guilds": {
+    "Blue Guild": {
+      "members": [],
+      "respectRank": "Respect XVIII",
+      "points": 2847
+    },
+    "Red Guild": {
+      "members": [],
+      "respectRank": "Respect XV", 
+      "points": 2634
+    },
+    "Green Guild": {
+      "members": [],
+      "respectRank": "Respect XII",
+      "points": 2401
+    },
+    "Yellow Guild": {
+      "members": [],
+      "respectRank": "Respect X",
+      "points": 2156
+    },
+    "Pink Guild": {
+      "members": [],
+      "respectRank": "Respect VIII",
+      "points": 1987
+    },
+    "Magenta Guild": {
+      "members": [],
+      "respectRank": "Respect VI",
+      "points": 1743
+    }
+  }
+} 

@@ -209,13 +209,29 @@
 
             <form id="signupForm">
                 <div class="form-group">
-                    <label for="fullName">Full Name *</label>
-                    <input type="text" id="fullName" name="fullName" required>
+                    <label for="username">Username *</label>
+                    <input type="text" id="username" name="username" required>
                 </div>
 
                 <div class="form-group">
                     <label for="email">Email Address *</label>
                     <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password *</label>
+                    <input type="password" id="password" name="password" required>
+                    <small style="color: #64748b; font-size: 0.8rem;">Must be at least 6 characters</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password *</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="fullName">Full Name *</label>
+                    <input type="text" id="fullName" name="fullName" required>
                 </div>
 
                 <div class="form-group">
@@ -254,6 +270,8 @@
         </div>
     </div>
 
+    <script src="email-service.js"></script>
+    <script src="auth.js"></script>
     <script>
         const guilds = [
             {
@@ -329,35 +347,52 @@
             
             // Get form data
             const formData = new FormData(this);
-            const userData = {
-                fullName: formData.get('fullName'),
-                email: formData.get('email'),
-                school: formData.get('school'),
-                bayArea: formData.get('bayArea')
-            };
+            const username = formData.get('username');
+            const email = formData.get('email');
+            const password = formData.get('password');
+            const confirmPassword = formData.get('confirmPassword');
+            const fullName = formData.get('fullName');
+            const school = formData.get('school');
+            const bayArea = formData.get('bayArea');
 
-            // Randomly assign to a guild
-            const randomGuild = guilds[Math.floor(Math.random() * guilds.length)];
+            // Validate passwords match
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            // Register user using auth system
+            const result = bayCodeAuth.register(username, email, password, fullName, school, bayArea);
             
-            // Display guild assignment
-            document.getElementById('assignedGuild').textContent = randomGuild.name;
-            document.getElementById('guildDescription').textContent = randomGuild.description;
-            
-            const featuresList = document.getElementById('guildFeatures');
-            featuresList.innerHTML = randomGuild.features.map(feature => `<li>${feature}</li>`).join('');
-            
-            // Show guild assignment
-            document.getElementById('guildAssignment').classList.add('show');
-            
-            // Hide the form
-            this.style.display = 'none';
-            
-            // Store user data in localStorage (for demo purposes)
-            localStorage.setItem('bayCodeUser', JSON.stringify({
-                ...userData,
-                guild: randomGuild.name,
-                joinDate: new Date().toISOString()
-            }));
+            if (result.success) {
+                // Find guild info
+                const guildInfo = guilds.find(g => g.name === result.user.guild);
+                
+                // Display guild assignment
+                document.getElementById('assignedGuild').textContent = guildInfo.name;
+                document.getElementById('guildDescription').textContent = guildInfo.description;
+                
+                const featuresList = document.getElementById('guildFeatures');
+                featuresList.innerHTML = guildInfo.features.map(feature => `<li>${feature}</li>`).join('');
+                
+                // Show guild assignment
+                document.getElementById('guildAssignment').classList.add('show');
+                
+                // Hide the form
+                this.style.display = 'none';
+                
+                // Update the continue button to go to dashboard
+                const continueBtn = document.querySelector('.guild-assignment .btn');
+                continueBtn.href = 'dashboard.html';
+                continueBtn.textContent = 'Go to Guild Dashboard';
+                
+                // Automatically redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 3000);
+            } else {
+                alert(result.message);
+            }
         });
     </script>
 </body>

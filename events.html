@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events - Bay Code</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .events-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 4rem 0 2rem;
+            text-align: center;
+        }
+
+        .events-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .events-header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .events-container {
+            padding: 3rem 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #2563eb;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link:hover {
+            color: #1d4ed8;
+        }
+
+        .events-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .events-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .events-section h2 {
+            color: #1e293b;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .event-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 4px solid transparent;
+        }
+
+        .event-card:nth-child(1) {
+            border-left-color: #3b82f6;
+        }
+
+        .event-card:nth-child(2) {
+            border-left-color: #ef4444;
+        }
+
+        .event-card:nth-child(3) {
+            border-left-color: #10b981;
+        }
+
+        .event-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .event-title {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .event-difficulty {
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .event-card:nth-child(1) .event-difficulty {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .event-card:nth-child(2) .event-difficulty {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .event-card:nth-child(3) .event-difficulty {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .event-description {
+            color: #64748b;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .event-details {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+
+        .chat-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 3rem;
+        }
+
+        .chat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .chat-title {
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .chat-container {
+            height: 400px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            background: #f8fafc;
+        }
+
+        .message {
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .message-username {
+            font-weight: 600;
+            color: #2563eb;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .message-content {
+            color: #1e293b;
+            line-height: 1.4;
+        }
+
+        .chat-input {
+            display: flex;
+            padding: 1rem;
+            background: white;
+            border-top: 2px solid #e2e8f0;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            margin-right: 0.5rem;
+        }
+
+        .chat-input input:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+
+        .chat-input button {
+            background: #2563eb;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .chat-input button:hover {
+            background: #1d4ed8;
+        }
+
+        .leaderboard-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .leaderboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .leaderboard-title {
+            color: #1e293b;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .leaderboard-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .tab-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #e2e8f0;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .leaderboard-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .leaderboard-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .rank-1 {
+            color: #fbbf24;
+            font-weight: 700;
+        }
+
+        .rank-2 {
+            color: #9ca3af;
+            font-weight: 700;
+        }
+
+        .rank-3 {
+            color: #f87171;
+            font-weight: 700;
+        }
+
+        .user-rank {
+            background: #2563eb;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .events-header h1 {
+                font-size: 2rem;
+            }
+
+            .chat-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="events-header">
+        <div class="container">
+            <h1>Events & Community</h1>
+            <p>Stay updated with our latest events, chat with your guild, and compete on leaderboards!</p>
+        </div>
+    </div>
+
+    <div class="events-container">
+        <div class="container">
+            <a href="dashboard.html" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+
+            <div class="events-grid">
+                <div class="events-section">
+                    <h2>Upcoming Events</h2>
+                    <div class="event-card">
+                        <div class="event-header">
+                            <h3 class="event-title">Java Bracket Hackathon</h3>
+                            <span class="event-difficulty">Intermediate</span>
+                        </div>
+                        <p class="event-description">For students with Java experience. Monthly competition with real logic problems.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-calendar"></i> Monthly</span>
+                            <span><i class="fas fa-dollar-sign"></i> $5 Entry</span>
+                            <span><i class="fas fa-users"></i> 45+ participants</span>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-header">
+                            <h3 class="event-title">Python Bracket Hackathon</h3>
+                            <span class="event-difficulty">Intermediate</span>
+                        </div>
+                        <p class="event-description">For those familiar with Python. Solve problems and compete with peers.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-calendar"></i> Monthly</span>
+                            <span><i class="fas fa-dollar-sign"></i> $5 Entry</span>
+                            <span><i class="fas fa-users"></i> 38+ participants</span>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-header">
+                            <h3 class="event-title">Pseudocode Bracket</h3>
+                            <span class="event-difficulty">Beginner</span>
+                        </div>
+                        <p class="event-description">Perfect for beginners with zero coding background. Learn and grow together.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-calendar"></i> Monthly</span>
+                            <span><i class="fas fa-dollar-sign"></i> $5 Entry</span>
+                            <span><i class="fas fa-users"></i> 25+ participants</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="events-section">
+                    <h2>Free Workshops</h2>
+                    <div class="event-card">
+                        <div class="event-header">
+                            <h3 class="event-title">Intro to Python</h3>
+                            <span class="event-difficulty">Beginner</span>
+                        </div>
+                        <p class="event-description">Perfect for beginners with no prior experience. Learn basic syntax and concepts.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-clock"></i> 2 hours</span>
+                            <span><i class="fas fa-users"></i> Free</span>
+                            <span><i class="fas fa-calendar"></i> Weekly</span>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-header">
+                            <h3 class="event-title">Intro to Java</h3>
+                            <span class="event-difficulty">Beginner</span>
+                        </div>
+                        <p class="event-description">Learn object-oriented programming with hands-on projects and mentor support.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-clock"></i> 2 hours</span>
+                            <span><i class="fas fa-users"></i> Free</span>
+                            <span><i class="fas fa-calendar"></i> Weekly</span>
+                        </div>
+                    </div>
+                    <div class="event-card">
+                        <div class="event-header">
+                            <h3 class="event-title">Machine Learning 101</h3>
+                            <span class="event-difficulty">Advanced</span>
+                        </div>
+                        <p class="event-description">In collaboration with Monta Vista's ML Club. Learn basic ML concepts and applications.</p>
+                        <div class="event-details">
+                            <span><i class="fas fa-clock"></i> 3 hours</span>
+                            <span><i class="fas fa-users"></i> Free</span>
+                            <span><i class="fas fa-calendar"></i> Monthly</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-section">
+                <div class="chat-header">
+                    <h2 class="chat-title">Guild Chat</h2>
+                    <span id="onlineUsers">0 online</span>
+                </div>
+                <div class="chat-container">
+                    <div class="chat-messages" id="chatMessages">
+                        <!-- Messages will be loaded here -->
+                    </div>
+                    <div class="chat-input">
+                        <input type="text" id="messageInput" placeholder="Type your message..." maxlength="500">
+                        <button onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="leaderboard-section">
+                <div class="leaderboard-header">
+                    <h2 class="leaderboard-title">Leaderboards</h2>
+                    <div class="leaderboard-tabs">
+                        <button class="tab-btn active" onclick="showLeaderboard('guild')">Guild Rankings</button>
+                        <button class="tab-btn" onclick="showLeaderboard('individual')">Individual</button>
+                        <button class="tab-btn" onclick="showLeaderboard('problems')">Problem Solvers</button>
+                    </div>
+                </div>
+                <div id="leaderboardContent">
+                    <!-- Leaderboard content will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="email-service.js"></script>
+    <script src="auth.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!bayCodeAuth.isLoggedIn()) {
+            window.location.href = 'login.html';
+        }
+
+        const currentUser = bayCodeAuth.getCurrentUser();
+        let chatMessages = [];
+        let currentLeaderboard = 'guild';
+
+        // Initialize chat with real messages from auth system
+        function initializeChat() {
+            chatMessages = bayCodeAuth.getChatMessages();
+            if (chatMessages.length === 0) {
+                // Add some sample messages if no messages exist
+                const sampleMessages = [
+                    {
+                        username: "Alex_Coder",
+                        message: "Anyone up for practicing some medium problems tonight?",
+                        timestamp: new Date(Date.now() - 3600000).toISOString(),
+                        guild: currentUser.guild
+                    },
+                    {
+                        username: "Sarah_Dev",
+                        message: "I'm in! Let's start with the Two Sum variations",
+                        timestamp: new Date(Date.now() - 1800000).toISOString(),
+                        guild: currentUser.guild
+                    },
+                    {
+                        username: "Mike_Java",
+                        message: "Great idea! I've been working on the dynamic programming problems",
+                        timestamp: new Date(Date.now() - 900000).toISOString(),
+                        guild: currentUser.guild
+                    },
+                    {
+                        username: currentUser.username,
+                        message: "Just joined! Looking forward to the next hackathon",
+                        timestamp: new Date(Date.now() - 300000).toISOString(),
+                        guild: currentUser.guild
+                    }
+                ];
+                
+                sampleMessages.forEach(msg => {
+                    bayCodeAuth.chatMessages.push(msg);
+                });
+                bayCodeAuth.saveData();
+                chatMessages = bayCodeAuth.getChatMessages();
+            }
+            
+            displayMessages();
+            updateOnlineUsers();
+        }
+
+        function displayMessages() {
+            const chatContainer = document.getElementById('chatMessages');
+            chatContainer.innerHTML = chatMessages.map(msg => `
+                <div class="message">
+                    <div class="message-header">
+                        <span class="message-username">${msg.username}</span>
+                        <span class="message-time">${formatTime(msg.timestamp)}</span>
+                    </div>
+                    <div class="message-content">${msg.message}</div>
+                </div>
+            `).join('');
+            
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                const newMessage = bayCodeAuth.addChatMessage(currentUser.username, message);
+                chatMessages = bayCodeAuth.getChatMessages();
+                displayMessages();
+                input.value = '';
+            }
+        }
+
+        function formatTime(dateString) {
+            const date = new Date(dateString);
+            const now = new Date();
+            const diff = now - date;
+            
+            if (diff < 60000) return 'Just now';
+            if (diff < 3600000) return `${Math.floor(diff / 60000)}m ago`;
+            if (diff < 86400000) return `${Math.floor(diff / 3600000)}h ago`;
+            return date.toLocaleDateString();
+        }
+
+        function updateOnlineUsers() {
+            const onlineCount = Math.floor(Math.random() * 20) + 15;
+            document.getElementById('onlineUsers').textContent = `${onlineCount} online`;
+        }
+
+        // Leaderboard functions
+        function showLeaderboard(type) {
+            currentLeaderboard = type;
+            
+            // Update active tab
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            loadLeaderboard(type);
+        }
+
+        function loadLeaderboard(type) {
+            const content = document.getElementById('leaderboardContent');
+            
+            if (type === 'guild') {
+                const guildStats = bayCodeAuth.getGuildStats();
+                const sortedGuilds = Object.entries(guildStats)
+                    .sort(([,a], [,b]) => b.respectPoints - a.respectPoints);
+                
+                content.innerHTML = `
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Guild</th>
+                                <th>Members</th>
+                                <th>Respect Points</th>
+                                <th>Respect Rank</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${sortedGuilds.map(([guildName, stats], index) => `
+                                <tr class="${guildName === currentUser.guild ? 'user-rank' : ''}">
+                                    <td class="rank-${index + 1}">#${index + 1}</td>
+                                    <td>${guildName}</td>
+                                    <td>${stats.memberCount}</td>
+                                    <td>${stats.respectPoints}</td>
+                                    <td>${stats.respectRank}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else if (type === 'individual') {
+                const sortedUsers = bayCodeAuth.getIndividualLeaderboard();
+                
+                content.innerHTML = `
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Username</th>
+                                <th>Guild</th>
+                                <th>Respect Points</th>
+                                <th>Respect Rank</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${sortedUsers.map((user, index) => `
+                                <tr class="${user.username === currentUser.username ? 'user-rank' : ''}">
+                                    <td class="rank-${index + 1}">#${index + 1}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.guild}</td>
+                                    <td>${user.respectPoints || 0}</td>
+                                    <td>${user.respectRank}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            } else if (type === 'problems') {
+                const sortedUsers = bayCodeAuth.getProblemSolvingLeaderboard();
+                
+                content.innerHTML = `
+                    <table class="leaderboard-table">
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Username</th>
+                                <th>Guild</th>
+                                <th>Problems Solved</th>
+                                <th>Respect Points</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${sortedUsers.map((user, index) => `
+                                <tr class="${user.username === currentUser.username ? 'user-rank' : ''}">
+                                    <td class="rank-${index + 1}">#${index + 1}</td>
+                                    <td>${user.username}</td>
+                                    <td>${user.guild}</td>
+                                    <td>${user.solvedProblems.length}</td>
+                                    <td>${user.respectPoints || 0}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                `;
+            }
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeChat();
+            loadLeaderboard('guild');
+            
+            // Auto-update online users
+            setInterval(updateOnlineUsers, 30000);
+            
+            // Enter key to send message
+            document.getElementById('messageInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

@@ -201,7 +201,29 @@ document.addEventListener('DOMContentLoaded', () => {
             filterProblems(e.target.dataset.difficulty);
         });
     });
+
+    // Check authentication state and update navigation
+    updateAuthUI();
 });
+
+// Update authentication UI
+function updateAuthUI() {
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    
+    if (typeof bayCodeAuth !== 'undefined' && bayCodeAuth.isLoggedIn()) {
+        const currentUser = bayCodeAuth.getCurrentUser();
+        loginBtn.textContent = currentUser.username;
+        loginBtn.href = 'dashboard.html';
+        signupBtn.textContent = 'Dashboard';
+        signupBtn.href = 'dashboard.html';
+    } else {
+        loginBtn.textContent = 'Login';
+        loginBtn.href = 'login.html';
+        signupBtn.textContent = 'Sign Up';
+        signupBtn.href = 'signup.html';
+    }
+}
 
 // Navbar scroll effect
 window.addEventListener('scroll', () => {
