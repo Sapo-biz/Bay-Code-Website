@@ -15,6 +15,7 @@ class BayCodeAuth {
             const data = localStorage.getItem('bayCodeData');
             if (data) {
                 const parsed = JSON.parse(data);
+                const test = 3;
                 this.users = parsed.users || [];
                 this.guilds = parsed.guilds || {};
                 this.chatMessages = parsed.chatMessages || [];
