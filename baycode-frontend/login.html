@@ -237,16 +237,21 @@
             const username = formData.get('username');
             const password = formData.get('password');
 
-            const result = bayCodeAuth.login(username, password);
-            
-            if (result.success) {
-                showMessage('success', 'Login successful! Redirecting...');
-                setTimeout(() => {
-                    window.location.href = 'dashboard.html';
-                }, 1000);
-            } else {
-                showMessage('error', result.message);
-            }
+            bayCodeAuth.login(username, password)
+                .then(result => {
+                    if (result.success) {
+                        showMessage('success', 'Login successful! Redirecting...');
+                        setTimeout(() => {
+                            window.location.href = 'dashboard.html';
+                        }, 1000);
+                    } else {
+                        showMessage('error', result.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Login error:', error);
+                    showMessage('error', 'Login failed. Please try again.');
+                });
         });
 
         document.getElementById('forgotPasswordLink').addEventListener('click', function(e) {

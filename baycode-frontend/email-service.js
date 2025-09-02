@@ -58,8 +58,8 @@ class EmailService {
         };
 
         // Simulate email sending (in real app, this would use a service like SendGrid, Mailgun, etc.)
-        console.log('📧 Email sent to:', email);
-        console.log('📧 Reset link:', resetLink);
+        // console.log('📧 Email sent to:', email);
+        // console.log('📧 Reset link:', resetLink);
         
         // Store sent email for demo purposes
         this.sentEmails.push({

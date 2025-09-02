@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Bay Code</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .admin-container {
+            min-height: 100vh;
+            background: #f8fafc;
+            padding: 2rem;
+        }
+
+        .admin-header {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .admin-header h1 {
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-header p {
+            color: #64748b;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .admin-content {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+        }
+
+        .users-section {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .search-bar select {
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .users-table th,
+        .users-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .users-table th {
+            background: #f8fafc;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .users-table tr:hover {
+            background: #f8fafc;
+        }
+
+        .guild-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .guild-blue { background: #3b82f6; }
+        .guild-red { background: #ef4444; }
+        .guild-green { background: #10b981; }
+        .guild-yellow { background: #f59e0b; }
+        .guild-pink { background: #ec4899; }
+        .guild-magenta { background: #be185d; }
+
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            margin-right: 0.5rem;
+        }
+
+        .edit-btn {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+            color: white;
+        }
+
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+        }
+
+        .sidebar h3 {
+            color: #1e293b;
+            margin-bottom: 1rem;
+        }
+
+        .guild-stats {
+            margin-bottom: 2rem;
+        }
+
+        .guild-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .guild-stat:last-child {
+            border-bottom: none;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+        }
+
+        .error {
+            background: #fef2f2;
+            color: #dc2626;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .success {
+            background: #f0fdf4;
+            color: #16a34a;
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .admin-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-shield-alt"></i> Admin Dashboard</h1>
+            <p>Manage users, view statistics, and monitor your Bay Code application</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3 id="totalUsers">-</h3>
+                <p>Total Users</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalGuilds">6</h3>
+                <p>Active Guilds</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="totalRespectPoints">-</h3>
+                <p>Total Respect Points</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="recentUsers">-</h3>
+                <p>New Users (7 days)</p>
+            </div>
+        </div>
+
+        <div class="admin-content">
+            <div class="users-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> User Management</h2>
+                    <button onclick="refreshUsers()" class="action-btn edit-btn">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Search users by name, email, or username...">
+                    <select id="guildFilter">
+                        <option value="">All Guilds</option>
+                        <option value="Blue Guild">Blue Guild</option>
+                        <option value="Red Guild">Red Guild</option>
+                        <option value="Green Guild">Green Guild</option>
+                        <option value="Yellow Guild">Yellow Guild</option>
+                        <option value="Pink Guild">Pink Guild</option>
+                        <option value="Magenta Guild">Magenta Guild</option>
+                    </select>
+                    <button onclick="searchUsers()" class="action-btn edit-btn">Search</button>
+                </div>
+
+                <div id="usersTable">
+                    <div class="loading">Loading users...</div>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="guild-stats">
+                    <h3><i class="fas fa-chart-pie"></i> Guild Statistics</h3>
+                    <div id="guildStats">
+                        <div class="loading">Loading guild stats...</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h3><i class="fas fa-clock"></i> Recent Activity</h3>
+                    <div id="recentActivity">
+                        <div class="loading">Loading recent activity...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:5000/api';
+
+        // Load data when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDashboard();
+        });
+
+        async function loadDashboard() {
+            try {
+                await Promise.all([
+                    loadStats(),
+                    loadUsers(),
+                    loadGuildStats()
+                ]);
+            } catch (error) {
+                console.error('Error loading dashboard:', error);
+                showError('Failed to load dashboard data');
+            }
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/stats`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('totalUsers').textContent = data.stats.totalUsers;
+                    document.getElementById('totalRespectPoints').textContent = data.stats.totalRespectPoints;
+                    
+                    // Calculate recent users (last 7 days)
+                    const weekAgo = new Date();
+                    weekAgo.setDate(weekAgo.getDate() - 7);
+                    const recentCount = data.stats.recentUsers.filter(user => 
+                        new Date(user.joinDate) > weekAgo
+                    ).length;
+                    document.getElementById('recentUsers').textContent = recentCount;
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        async function loadUsers() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/users`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayUsers(data.users);
+                } else {
+                    showError('Failed to load users');
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                showError('Failed to load users');
+            }
+        }
+
+        async function loadGuildStats() {
+            try {
+                const response = await fetch(`${API_BASE}/admin/stats`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayGuildStats(data.stats.usersByGuild);
+                }
+            } catch (error) {
+                console.error('Error loading guild stats:', error);
+            }
+        }
+
+        function displayUsers(users) {
+            const tableContainer = document.getElementById('usersTable');
+            
+            if (users.length === 0) {
+                tableContainer.innerHTML = '<div class="loading">No users found</div>';
+                return;
+            }
+
+            const table = `
+                <table class="users-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Guild</th>
+                            <th>Respect Points</th>
+                            <th>Join Date</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${users.map(user => `
+                            <tr>
+                                <td>
+                                    <div>
+                                        <strong>${user.username}</strong><br>
+                                        <small>${user.email}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="guild-badge guild-${user.guild.toLowerCase().split(' ')[0]}">
+                                        ${user.guild}
+                                    </span>
+                                </td>
+                                <td>${user.respectPoints || 0}</td>
+                                <td>${new Date(user.joinDate).toLocaleDateString()}</td>
+                                <td>
+                                    <button onclick="editUser('${user._id}')" class="action-btn edit-btn">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button onclick="deleteUser('${user._id}')" class="action-btn delete-btn">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+            
+            tableContainer.innerHTML = table;
+        }
+
+        function displayGuildStats(guildStats) {
+            const container = document.getElementById('guildStats');
+            
+            const statsHtml = guildStats.map(stat => `
+                <div class="guild-stat">
+                    <span>${stat._id}</span>
+                    <span>
+                        <strong>${stat.count}</strong> users
+                        <br><small>${stat.totalRespectPoints} points</small>
+                    </span>
+                </div>
+            `).join('');
+            
+            container.innerHTML = statsHtml;
+        }
+
+        async function searchUsers() {
+            const query = document.getElementById('searchInput').value;
+            const guild = document.getElementById('guildFilter').value;
+            
+            try {
+                const params = new URLSearchParams();
+                if (query) params.append('query', query);
+                if (guild) params.append('guild', guild);
+                
+                const response = await fetch(`${API_BASE}/admin/search?${params}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayUsers(data.users);
+                }
+            } catch (error) {
+                console.error('Error searching users:', error);
+                showError('Search failed');
+            }
+        }
+
+        async function editUser(userId) {
+            // Simple edit functionality - you can expand this
+            const newGuild = prompt('Enter new guild (Blue Guild, Red Guild, etc.):');
+            if (!newGuild) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ guild: newGuild })
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showSuccess('User updated successfully');
+                    loadDashboard(); // Refresh data
+                } else {
+                    showError('Failed to update user');
+                }
+            } catch (error) {
+                console.error('Error updating user:', error);
+                showError('Failed to update user');
+            }
+        }
+
+        async function deleteUser(userId) {
+            if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_BASE}/admin/users/${userId}`, {
+                    method: 'DELETE'
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    showSuccess('User deleted successfully');
+                    loadDashboard(); // Refresh data
+                } else {
+                    showError('Failed to delete user');
+                }
+            } catch (error) {
+                console.error('Error deleting user:', error);
+                showError('Failed to delete user');
+            }
+        }
+
+        function refreshUsers() {
+            loadDashboard();
+        }
+
+        function showSuccess(message) {
+            const successDiv = document.createElement('div');
+            successDiv.className = 'success';
+            successDiv.textContent = message;
+            document.querySelector('.admin-container').insertBefore(successDiv, document.querySelector('.stats-grid'));
+            
+            setTimeout(() => successDiv.remove(), 3000);
+        }
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            document.querySelector('.admin-container').insertBefore(errorDiv, document.querySelector('.stats-grid'));
+            
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchUsers();
+            }
+        });
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadStats, 30000);
+    </script>
+</body>
+</html> 

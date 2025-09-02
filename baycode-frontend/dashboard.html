@@ -66,6 +66,21 @@
             background: rgba(255, 255, 255, 0.3);
         }
 
+        .admin-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-right: 1rem;
+        }
+
+        .admin-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
         .dashboard-content {
             padding: 3rem 0;
         }
@@ -269,9 +284,14 @@
                     <p id="userGuild">Loading...</p>
                 </div>
             </div>
-            <a href="#" onclick="logout()" class="logout-btn">
-                <i class="fas fa-sign-out-alt"></i> Logout
-            </a>
+            <div>
+                <a href="admin.html" class="admin-btn">
+                    <i class="fas fa-shield-alt"></i> Admin
+                </a>
+                <a href="#" onclick="logout()" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
         </div>
     </div>
 

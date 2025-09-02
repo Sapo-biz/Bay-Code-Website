@@ -362,9 +362,9 @@
             }
 
             // Register user using auth system
-            const result = bayCodeAuth.register(username, email, password, fullName, school, bayArea);
-            
-            if (result.success) {
+            bayCodeAuth.register(username, email, password, fullName, school, bayArea)
+                .then(result => {
+                    if (result.success) {
                 // Find guild info
                 const guildInfo = guilds.find(g => g.name === result.user.guild);
                 
@@ -390,9 +390,14 @@
                 setTimeout(() => {
                     window.location.href = 'dashboard.html';
                 }, 3000);
-            } else {
-                alert(result.message);
-            }
+                    } else {
+                        alert(result.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Registration error:', error);
+                    alert('Registration failed. Please try again.');
+                });
         });
     </script>
 </body>
