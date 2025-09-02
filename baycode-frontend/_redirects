@@ -1,14 +1,1 @@
-# Netlify redirects for SPA routing
-# This ensures that direct links to pages like /login, /signup, etc. work properly
-
-# Redirect all 404s to index.html for client-side routing
 /*    /index.html   200
-
-# Specific redirects for better SEO
-/login    /login.html    200
-/signup   /signup.html   200
-/dashboard    /dashboard.html    200
-/practice     /practice.html    200
-/events       /events.html      200
-/profile      /profile.html     200
-/reset-password   /reset-password.html    200
